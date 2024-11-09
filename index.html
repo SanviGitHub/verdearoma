@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verdearoma - Moda Sostenible y Elegante</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <div class="logo">
+                <img src="verdearoma.jpg" alt="Verde Aroma Logo" class="logo-image">
+                <h1 class="logo-text">Verdearoma</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#productos">Colección</a></li>
+                <li><a href="#sobre-nosotros">Nuestra Historia</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+            <div class="cart-icon" id="cart-icon">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="cart-count">0</span>
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="inicio" class="hero">
+            <div class="hero-content container">
+                <h2 class="hero-title">Elegancia Sostenible</h2>
+                <p class="hero-subtitle">Descubre nuestra colección de moda eco-friendly</p>
+                <a href="#productos" class="cta-button">Explorar Colección</a>
+            </div>
+        </section>
+
+        <section id="productos" class="products">
+            <div class="container">
+                <h2 class="section-title">Nuestra Colección</h2>
+                <div class="product-grid" id="product-grid">
+                    <!-- Los productos se cargarán dinámicamente con JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <section id="sobre-nosotros" class="about">
+            <div class="container">
+                <h2 class="section-title">Nuestra Historia</h2>
+                <div class="about-content">
+                    <img src="verdearoma.jpg" alt="Sobre Verdearoma" class="about-image">
+                    <div class="about-text">
+                        <h3>•VERDE AROMA• byNatytula</h3>
+                        <p>Compras y ventas al por menor de las mejores marcas de moda.</p>
+                        <ul class="business-details">
+                            <li>👚 Koxis, Portsaid, Muaa y más</li>
+                            <li>📍 Los Polvorines</li>
+                            <li>📲 Consultas por mensaje directo en Instagram</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contacto" class="contact">
+            <div class="container">
+                <h2 class="section-title">Contáctanos</h2>
+                <form id="contact-form" class="contact-form">
+                    <input type="text" name="name" placeholder="Nombre" required>
+                    <input type="email" name="email" placeholder="Correo Electrónico" required>
+                    <textarea name="message" placeholder="Mensaje" required></textarea>
+                    <button type="submit" class="submit-button">Enviar Mensaje</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 class="modal-title">Tu Carrito</h2>
+            <div id="cart-items"></div>
+            <div id="cart-total"></div>
+            <button id="checkout-button" class="checkout-button">Proceder al Pago</button>
+        </div>
+    </div>
+
+    <div id="checkout-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 class="modal-title">Finalizar Compra</h2>
+            <p>Selecciona tu método de pago:</p>
+            <button id="cash-payment" class="payment-button">Efectivo</button>
+            <button id="mercadopago-payment" class="payment-button">Mercado Pago</button>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content container">
+            <div class="footer-section">
+                <h3 class="footer-title">Verdearoma</h3>
+                <p>Moda sostenible para un futuro consciente.</p>
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-title">Enlaces Rápidos</h3>
+                <ul class="footer-links">
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#productos">Colección</a></li>
+                    <li><a href="#sobre-nosotros">Nuestra Historia</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-title">Síguenos</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/verdearoma.nt/" class="social-icon" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Verdearoma. Todos los derechos reservados.</p>
+            <p>Creado con ♥ por Naty | Diseño: Sanvi Korporate</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
