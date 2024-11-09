@@ -1,82 +1,79 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Menú móvil
-    const menuToggle = document.querySelector('.menu-toggle');
-    const navLinks = document.querySelector('.nav-links');
-
-    menuToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-    });
-
-    // Efecto de parallax en el hero
-    const hero = document.querySelector('.hero');
-    window.addEventListener('scroll', () => {
-        const scrollPosition = window.pageYOffset;
-        hero.style.backgroundPositionY = `${scrollPosition * 0.5}px`;
-    });
-
-    // Animación de aparición para las secciones
-    const sections = document.querySelectorAll('section');
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-    };
-
-    const sectionObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('appear');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    sections.forEach(section => {
-        sectionObserver.observe(section);
-    });
-
-    // Cargar productos dinámicamente
-    const productGrid = document.querySelector('.product-grid');
+    // Initialize products
     const products = [
-        { id: 1, name: 'Camiseta Orgánica', price: 29.99, image: '/placeholder.svg?height=250&width=250' },
-        { id: 2, name: 'Pantalón Reciclado', price: 59.99, image: '/placeholder.svg?height=250&width=250' },
-        { id: 3, name: 'Vestido Sostenible', price: 79.99, image: '/placeholder.svg?height=250&width=250' },
-        { id: 4, name: 'Chaqueta Ecológica', price: 99.99, image: '/placeholder.svg?height=250&width=250' },
-        { id: 5, name: 'Zapatos Veganos', price: 89.99, image: '/placeholder.svg?height=250&width=250' },
-        { id: 6, name: 'Bolso Reciclado', price: 49.99, image: '/placeholder.svg?height=250&width=250' },
+        {
+            id: 1,
+            name: 'Vestido Sostenible',
+            price: 79.99,
+            image: 'verdearoma.jpg'
+        },
+        {
+            id: 2,
+            name: 'Pantalón Reciclado',
+            price: 59.99,
+            image: 'verdearoma.jpg'
+        },
+        {
+            id: 3,
+            name: 'Blusa Ecológica',
+            price: 45.99,
+            image: 'verdearoma.jpg'
+        },
+        {
+            id: 4,
+            name: 'Chaqueta Verde',
+            price: 89.99,
+            image: 'verdearoma.jpg'
+        }
     ];
 
-    products.forEach(product => {
-        const productCard = document.createElement('div');
-        productCard.classList.add('product-card');
-        productCard.innerHTML = `
-            <img src="${product.image}" alt="${product.name}">
-            <div class="product-info">
-                <h3>${product.name}</h3>
-                <p>$${product.price.toFixed(2)}</p>
-                <button class="add-to-cart" data-id="${product.id}">Añadir al Carrito</button>
-            </div>
-        `;
-        productGrid.appendChild(productCard);
-    });
-
-    // Carrito de compras
+    // Cart state
     let cart = [];
+
+    // DOM Elements
+    const productGrid = document.getElementById('product-grid');
     const cartIcon = document.getElementById('cart-icon');
     const cartModal = document.getElementById('cart-modal');
+    const checkoutModal = document.getElementById('checkout-modal');
     const cartItems = document.getElementById('cart-items');
     const cartTotal = document.getElementById('cart-total');
     const checkoutButton = document.getElementById('checkout-button');
-    const checkoutModal = document.getElementById('checkout-modal');
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    const closeButtons = document.querySelectorAll('.close');
     const cashPayment = document.getElementById('cash-payment');
     const mercadopagoPayment = document.getElementById('mercadopago-payment');
+    const contactForm = document.getElementById('contact-form');
 
+    // Load products
+    function loadProducts() {
+        productGrid.innerHTML = '';
+        products.forEach(product => {
+            const productCard = document.createElement('div');
+            productCard.classList.add('product-card');
+            productCard.innerHTML = `
+                <img src="${product.image}" alt="${product.name}">
+                <div class="product-info">
+                    <h3>${product.name}</h3>
+                    <p>$${product.price.toFixed(2)}</p>
+                    <button class="add-to-cart" data-id="${product.id}">
+                        Añadir al Carrito
+                    </button>
+                </div>
+            `;
+            productGrid.appendChild(productCard);
+        });
+    }
+
+    // Update cart display
     function updateCart() {
         cartItems.innerHTML = '';
         let total = 0;
+
         cart.forEach(item => {
             const product = products.find(p => p.id === item.id);
             total += product.price * item.quantity;
+
             cartItems.innerHTML += `
                 <div class="cart-item">
                     <span>${product.name}</span>
@@ -85,73 +82,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
         });
+
         cartTotal.textContent = `Total: $${total.toFixed(2)}`;
-        const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-        document.querySelector('.cart-count').textContent = cartCount;
-        document.querySelector('.cart-icon').setAttribute('data-count', cartCount);
+        document.querySelector('.cart-count').textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
     }
 
-    productGrid.addEventListener('click', (e) => {
-        if (e.target.classList.contains('add-to-cart')) {
-            const productId = parseInt(e.target.dataset.id);
-            const existingItem = cart.find(item => item.id === productId);
-            if (existingItem) {
-                existingItem.quantity++;
-            } else {
-                cart.push({ id: productId, quantity: 1 });
-            }
-            updateCart();
-            showNotification('Producto añadido al carrito');
-        }
-    });
-
-    cartIcon.addEventListener('click', () => {
-        updateCart();
-        cartModal.style.display = 'block';
-    });
-
-    checkoutButton.addEventListener('click', () => {
-        cartModal.style.display = 'none';
-        checkoutModal.style.display = 'block';
-    });
-
-    function closeModals() {
-        cartModal.style.display = 'none';
-        checkoutModal.style.display = 'none';
-    }
-
-    document.querySelectorAll('.close').forEach(closeBtn => {
-        closeBtn.addEventListener('click', closeModals);
-    });
-
-    window.addEventListener('click', (e) => {
-        if (e.target === cartModal || e.target === checkoutModal) {
-            closeModals();
-        }
-    });
-
-    function sendWhatsAppMessage(paymentMethod) {
-        const phoneNumber = '1234567890'; // Reemplaza con el número de teléfono real de la tienda
-        let message = 'Hola,\nQuisiera comprar los siguientes productos:\n';
-        cart.forEach(item => {
-            const product = products.find(p => p.id === item.id);
-            message += `${product.name} (Cantidad: ${item.quantity})\n`;
-        });
-        message += `\nQuisiera pagar con ${paymentMethod}`;
-
-        const encodedMessage = encodeURIComponent(message);
-        window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
-    }
-
-    cashPayment.addEventListener('click', () => sendWhatsAppMessage('Efectivo'));
-    mercadopagoPayment.addEventListener('click', () => sendWhatsAppMessage('Mercado Pago'));
-
-    // Notificaciones
+    // Show notification
     function showNotification(message) {
         const notification = document.createElement('div');
         notification.classList.add('notification');
-        notification.textContent = message;
+        notification.innerHTML = `
+            <div class="notification-content">
+                <i class="fas fa-check-circle"></i>
+                <span>${message}</span>
+            </div>
+        `;
         document.body.appendChild(notification);
+        
         setTimeout(() => {
             notification.classList.add('show');
             setTimeout(() => {
@@ -163,21 +110,114 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 100);
     }
 
-    // Formulario de contacto
-    const contactForm = document.getElementById('contact-form');
+    // Send WhatsApp message
+    function sendWhatsAppMessage(paymentMethod) {
+        const phoneNumber = '+5491161017614';
+        let message = '¡Hola Verde Aroma!\nQuisiera realizar la siguiente compra:\n\n';
+        
+        cart.forEach(item => {
+            const product = products.find(p => p.id === item.id);
+            message += `• ${product.name} (${item.quantity}x $${product.price})\n`;
+        });
+        
+        const total = cart.reduce((sum, item) => {
+            const product = products.find(p => p.id === item.id);
+            return sum + (product.price * item.quantity);
+        }, 0);
+        
+        message += `\nTotal: $${total.toFixed(2)}`;
+        message += `\nMétodo de pago: ${paymentMethod}`;
+        
+        const encodedMessage = encodeURIComponent(message);
+        window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+    }
+
+    // Event Listeners
+    productGrid.addEventListener('click', (e) => {
+        if (e.target.classList.contains('add-to-cart')) {
+            const productId = parseInt(e.target.dataset.id);
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ id: productId, quantity: 1 });
+            }
+            
+            updateCart();
+            showNotification('Producto añadido al carrito');
+        }
+    });
+
+    cartIcon.addEventListener('click', () => {
+        updateCart();
+        cartModal.style.display = 'block';
+    });
+
+    checkoutButton.addEventListener('click', () => {
+        if (cart.length === 0) {
+            showNotification('El carrito está vacío');
+            return;
+        }
+        cartModal.style.display = 'none';
+        checkoutModal.style.display = 'block';
+    });
+
+    closeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            cartModal.style.display = 'none';
+            checkoutModal.style.display = 'none';
+        });
+    });
+
+    menuToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+    });
+
+    cashPayment.addEventListener('click', () => {
+        sendWhatsAppMessage('Efectivo');
+        checkoutModal.style.display = 'none';
+        cart = [];
+        updateCart();
+        showNotification('¡Gracias por tu compra!');
+    });
+
+    mercadopagoPayment.addEventListener('click', () => {
+        sendWhatsAppMessage('Mercado Pago');
+        checkoutModal.style.display = 'none';
+        cart = [];
+        updateCart();
+        showNotification('¡Gracias por tu compra!');
+    });
+
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        showNotification('Gracias por tu mensaje. Te contactaremos pronto.');
+        showNotification('Mensaje enviado correctamente');
         contactForm.reset();
     });
 
-    // Animación de scroll suave
+    // Close modals when clicking outside
+    window.addEventListener('click', (e) => {
+        if (e.target === cartModal || e.target === checkoutModal) {
+            cartModal.style.display = 'none';
+            checkoutModal.style.display = 'none';
+        }
+    });
+
+    // Smooth scroll for navigation links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth'
+                });
+                navLinks.classList.remove('active');
+            }
         });
     });
+
+    // Initialize products on load
+    loadProducts();
 });

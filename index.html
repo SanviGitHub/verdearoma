@@ -6,7 +6,7 @@
     <title>Verdearoma - Moda Sostenible y Elegante</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <header class="header">
@@ -44,7 +44,7 @@
             <div class="container">
                 <h2 class="section-title">Nuestra Colección</h2>
                 <div class="product-grid" id="product-grid">
-                    <!-- Los productos se cargarán dinámicamente con JavaScript -->
+                    <!-- Products will be loaded dynamically -->
                 </div>
             </div>
         </section>
@@ -95,8 +95,12 @@
             <span class="close">&times;</span>
             <h2 class="modal-title">Finalizar Compra</h2>
             <p>Selecciona tu método de pago:</p>
-            <button id="cash-payment" class="payment-button">Efectivo</button>
-            <button id="mercadopago-payment" class="payment-button">Mercado Pago</button>
+            <button id="cash-payment" class="payment-button">
+                <i class="fas fa-money-bill-wave"></i> Efectivo
+            </button>
+            <button id="mercadopago-payment" class="payment-button">
+                <i class="fas fa-credit-card"></i> Mercado Pago
+            </button>
         </div>
     </div>
 
@@ -118,15 +122,17 @@
             <div class="footer-section">
                 <h3 class="footer-title">Síguenos</h3>
                 <div class="social-icons">
-                    <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
-                    <a href="https://www.instagram.com/verdearoma.nt/" class="social-icon" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="https://www.instagram.com/verdearoma.nt/" class="social-icon" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://wa.me/+5491161017614" class="social-icon" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
                 </div>
             </div>
         </div>
         <div class="footer-bottom">
             <p>&copy; 2024 Verdearoma. Todos los derechos reservados.</p>
-            <p>Creado con ♥ por Naty | Diseño: Sanvi Korporate</p>
         </div>
     </footer>
 
