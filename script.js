@@ -218,6 +218,32 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Añadir un evento de clic al botón "Explorar Colección"
+    document.querySelector('.cta-button').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevenir el comportamiento por defecto del enlace
+        const targetSection = document.querySelector('#productos'); // Seleccionar la sección de colección
+        targetSection.scrollIntoView({ behavior: 'smooth' }); // Desplazamiento suave hacia la sección
+    });
+
     // Initialize products on load
     loadProducts();
+});
+
+document.getElementById('contact-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+    const data = {
+        from_name: formData.get('name'), // Nombre del remitente
+        from_email: formData.get('email'), // Correo del remitente
+        message: formData.get('message') // Mensaje del remitente
+    };
+
+    emailjs.send("service_2vjsbm", "tu_template_id", data) // Asegúrate de que el Service ID y Template ID sean correctos
+        .then(function(response) {
+            alert('Correo enviado con éxito!');
+            document.getElementById('contact-form').reset(); // Reinicia el formulario
+        }, function(error) {
+            alert('Error al enviar el correo: ' + JSON.stringify(error));
+        });
 });

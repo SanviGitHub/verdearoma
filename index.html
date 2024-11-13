@@ -137,5 +137,30 @@
     </footer>
 
     <script src="script.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init("NkNshlxFffQUQ4BHg"); // Reemplaza con tu Public Key
+        })();
+
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const data = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                message: formData.get('message')
+            };
+
+            emailjs.send("service_2vjsbm", "template_e1u1wok", data) // Reemplaza con tu Template ID
+                .then(function(response) {
+                    alert('Correo enviado con éxito!');
+                    document.getElementById('contact-form').reset(); // Reinicia el formulario
+                }, function(error) {
+                    alert('Error al enviar el correo: ' + JSON.stringify(error));
+                });
+        });
+    </script>
 </body>
 </html>
